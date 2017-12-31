@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PDF文字閱讀器</string>
+	<string name="menu_sele_file">開檔</string>
+	<string name="menu_pre_page">上一頁</string>
+	<string name="menu_next_page">下一頁</string>
+	<string name="menu_go">跳到</string>
+	<string name="menu_index">目錄</string>
+	<string name="menu_info">資訊</string>
+	<string name="menu_settings">設定</string>
+	<string name="menu_settings_font_size">字體大小</string>
+	<string name="menu_settings_bg_color">背景顏色</string>
+	<string name="menu_settings_font_color">字體顏色</string>
+	<string name="menu_settings_text_align_left">向左對齊"</string>
+	<string name="menu_settings_text_align_full">平均分布"</string>
+	<string name="error">錯誤!</string>
+	<string name="err_read_file">讀檔錯誤:</string>
+	<string name="dialog_goto_page">跳到!</string>
+	<string name="dialog_ok">確定</string>
+	<string name="dialog_cancel">取消</string>
+	<string name="dialog_wait">請稍待</string>
+	<string name="dialog_loading">讀檔中...</string>
+	<string name="loading">讀檔中... 請稍待...</string>
+	<string name="file_picker">選取檔案</string>
+	<string name="page_picker">目錄</string>
+	<string name="color_picker">選取顏色</string>
+	<string name="background_color_picker">選取背景顏色</string>
+	<string name="font_color_picker">選取字體顏色</string>
+	<string name="settings">設定</string>
+	<string name="reach_root">已是最上層</string>
+	<string name="outline">目錄</string>
+	<string name="text_alignment">文字對齊</string>
+	<string name="read_me_file">txtreader_zh</string>	
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+        
+	    <ImageButton 
+	    	android:id="@+id/page_up"
+      	    android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@android:drawable/btn_plus"
+		/>
+
+	   <EditText
+	       	android:id="@+id/page_no_edit"
+ 			android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:inputType="number"
+	       	android:textAppearance="?android:attr/textAppearanceMedium"
+		/>
+
+	    <ImageButton
+	    	android:id="@+id/page_down"
+      	    android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@android:drawable/btn_minus"
+		/>
+    
+</LinearLayout>

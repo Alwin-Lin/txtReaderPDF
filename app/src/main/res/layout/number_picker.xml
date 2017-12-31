@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<LinearLayout
+		android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal">
+        
+        <ImageButton
+	    	android:id="@+id/minus_button"
+	    	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	    	android:src="@drawable/minus" />
+		/>
+        
+	   <EditText
+	       	android:id="@+id/number_editor"
+ 			android:layout_width="100dip"
+	       	android:layout_height="fill_parent"
+	       	android:layout_gravity="center_horizontal"
+	       	android:textSize="24dip"
+	       	android:inputType="number"
+		/>
+        <ImageButton
+	       	android:id="@+id/plus_button"
+	    	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	    	android:src="@drawable/plus" />        
+	</LinearLayout>
+	
+	<LinearLayout
+		android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal">
+	
+		<Button
+			android:id="@+id/ok_button"
+			android:layout_height="wrap_content"
+			android:layout_width="120dip"
+			android:text="@string/dialog_ok"/>
+
+		<Button
+			android:id="@+id/cancel_button"
+			android:layout_height="wrap_content"
+			android:layout_width="120dip"
+			android:text="@string/dialog_cancel"/>
+	</LinearLayout>    
+
+</LinearLayout>
