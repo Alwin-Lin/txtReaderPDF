@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.hsl.txtreader"
-        minSdkVersion 3
-        targetSdkVersion 3
+        minSdkVersion 16
+        targetSdkVersion 26
     }
 
     buildTypes {
