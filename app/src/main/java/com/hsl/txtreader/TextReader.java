@@ -112,18 +112,16 @@ public class TextReader extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
         handler = new Handler();
         docMgr = new DocMgr();
         pageCacheMgr = new PageCacheManager(this);
 
-        fileNameTxt = (TextView) findViewById(R.id.file_name);
-        pageNoTxt = (TextView) findViewById(R.id.page_no);
-        progressBar = (ProgressBar) findViewById(R.id.determinateBar);
-        webView = (WebView) findViewById(R.id.pdfPageWebView);
+        fileNameTxt = findViewById(R.id.file_name);
+        pageNoTxt = findViewById(R.id.page_no);
+        progressBar = findViewById(R.id.determinateBar);
+        webView = findViewById(R.id.pdfPageWebView);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.requestFocus();
         registerForContextMenu(webView);
@@ -154,7 +152,7 @@ public class TextReader extends Activity {
 
         Intent intent = getIntent();
         if (intent != null  &&
-                intent.ACTION_VIEW.equals(intent.getAction())) {
+                Intent.ACTION_VIEW.equals(intent.getAction())) {
             dataFileName = intent.getData().getPath();
             page = 1;
             requestPage();
@@ -247,7 +245,7 @@ public class TextReader extends Activity {
         case SELE_SETTINGS_FONT_SIZE:
             dlg = new NumberPicker(this, R.string.menu_settings_font_size, mFontSize, 100, 6, new View.OnClickListener() {
                 public void onClick(View view) {
-                    EditText pageNoEdit = (EditText) dlg.findViewById(R.id.number_editor);
+                    EditText pageNoEdit = dlg.findViewById(R.id.number_editor);
 
                     try {
                         mFontSize = Integer.parseInt(pageNoEdit.getText().toString());
@@ -350,7 +348,7 @@ public class TextReader extends Activity {
         case SELE_GO:
             dlg = new NumberPicker(this, R.string.dialog_goto_page, page, numPages, 1, new View.OnClickListener() {
                 public void onClick(View view) {
-                    EditText pageNoEdit = (EditText) dlg.findViewById(R.id.number_editor);
+                    EditText pageNoEdit = dlg.findViewById(R.id.number_editor);
 
                     try {
                         page = Integer.parseInt(pageNoEdit.getText().toString());
