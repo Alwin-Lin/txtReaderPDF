@@ -83,13 +83,17 @@ public class FilePicker extends Picker {
             }
         });
 
-        for (File curFile : files) {
-            mItems.add(curFile.getName());
-            if (curFile.isDirectory()) {
-                mIcons.add(folderIcon);
-            } else {
-                mIcons.add(fileIcon);
+        if (files!= null){
+            for (File curFile : files) {
+                mItems.add(curFile.getName());
+                if (curFile.isDirectory()) {
+                    mIcons.add(folderIcon);
+                } else {
+                    mIcons.add(fileIcon);
+                }
             }
+        } else {
+            setTitle("No Files Here!");
         }
     }
 
