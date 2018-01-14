@@ -117,7 +117,6 @@ public class TextReader extends Activity {
         handler = new Handler();
         docMgr = new DocMgr();
         pageCacheMgr = new PageCacheManager(this);
-
         fileNameTxt = findViewById(R.id.file_name);
         pageNoTxt = findViewById(R.id.page_no);
         progressBar = findViewById(R.id.determinateBar);
@@ -297,17 +296,29 @@ public class TextReader extends Activity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
     public boolean onMenuOpened(int featureId, Menu menu) {
         super.onMenuOpened(featureId, menu);
+        
         if (inProgress) {
             Toast.makeText(this, R.string.loading, Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            if (numPages>1) {
+            if (numPages>1 && menu!= null) {
                 menu.setGroupVisible(MENU_PAGE_ITEM, true);
             } else {
-                menu.setGroupVisible(MENU_PAGE_ITEM, false);
+                if (numPages<1 && menu!= null) {
+                    menu.setGroupVisible(MENU_PAGE_ITEM, false);
+                }
+                else {onPrepareOptionsMenu(menu);{
+                    return super.onPrepareOptionsMenu(menu);
+                }
+
+                }
             }
+
 
             if (docMgr.getOutline() != null) {
                 menu.findItem(SELE_INDEX).setVisible(true);

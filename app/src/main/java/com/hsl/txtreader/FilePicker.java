@@ -21,7 +21,11 @@ package com.hsl.txtreader;
 
 import java.io.File;
 import java.io.FileFilter;
-
+import android.content.pm.PackageManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,14 +33,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.pm.PackageManager;
 
 
-public class FilePicker extends Picker {
+
+public class FilePicker extends Picker
+        implements ActivityCompat.OnRequestPermissionsResultCallback {
+
     public static final String KEY_PATH = "Path";
     public static final String KEY_FILE_NAME = "FileName";
 
+    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 0;
+
     private String curPath;
     private Bitmap folderIcon, fileIcon;
+    private View mLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +55,7 @@ public class FilePicker extends Picker {
 
         folderIcon = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
         fileIcon = BitmapFactory.decodeResource(getResources(), R.drawable.file);
+        mLayout = findViewById(R.id.file_picker_layout);
 
         setTitle(R.string.file_picker);
         setHeadIcon(R.drawable.back);
@@ -57,12 +69,25 @@ public class FilePicker extends Picker {
 
         exploreCurPath();
     }
+    public int permissionCheck = ContextCompat.checkSelfPermission(FilePicker.this,
+            Manifest.permission.READ_EXTERNAL_STORAGE);
 
     private void exploreCurPath() {
-        setHeadText(curPath);
-        buildFileList(curPath);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            // Permission is already available, start camera preview
+            Snackbar.make(mLayout,
+                    "Read external file permission is available. Exploring current path.",
+                    Snackbar.LENGTH_SHORT).show();
+            setHeadText(curPath);
+            buildFileList(curPath);
 
-        setListAdapter(new listAdapter(this, mItems, mIcons));
+            setListAdapter(new listAdapter(this, mItems, mIcons));
+        } else {
+            // Permission is missing and must be requested.
+            requestReadExternalFilePermission();
+        }
+        // END_INCLUDE(exploreCurrentFilePath)
     }
 
     public void buildFileList(String path) {
@@ -96,6 +121,56 @@ public class FilePicker extends Picker {
             setTitle("No Files Here!");
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+           int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Snackbar.make(mLayout, "Read external files permission was granted. Starting preview.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+                exploreCurPath();
+            } else {
+                Snackbar.make(mLayout, "Read external files permission request was denied.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+
+    private void requestReadExternalFilePermission() {
+        // Permission has not been granted and must be requested.
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // Display a SnackBar with a button to request the missing permission.
+            Snackbar.make(mLayout, "External file access is required to display the file preview.",
+                    Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Request the permission
+                    ActivityCompat.requestPermissions(FilePicker.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+            }).show();
+
+        } else {
+            Snackbar.make(mLayout,
+                    "Permission is not available. Requesting read external file permission.",
+                    Snackbar.LENGTH_SHORT).show();
+             //Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+    }
+
+
 
     @Override
     public void onClick(View v) {

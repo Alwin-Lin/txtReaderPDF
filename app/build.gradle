@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.hsl.txtreader"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 26
     }
 
@@ -14,6 +14,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    allprojects {
+        repositories {
+            jcenter()
+            maven {
+                url "https://maven.google.com"
+            }
+            dependencies {
+                compile "com.android.support:support-core-utils:26.0.2"
+                compile "com.android.support:design:26.0.2"
+            }
+
         }
     }
 }
