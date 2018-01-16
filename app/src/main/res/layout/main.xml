@@ -2,6 +2,7 @@
 
 
 <LinearLayout
+    android:id="@+id/main_activity"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"

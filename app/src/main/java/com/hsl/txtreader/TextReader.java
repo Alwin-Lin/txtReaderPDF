@@ -181,7 +181,7 @@ public class TextReader extends Activity {
         	Log.i("TextReader", nameTag+", "+fileID);
             InputStream inFile = getResources().openRawResource(fileID);
             
-            FileOutputStream outFile = openFileOutput(README_FILE_NAME, Context.MODE_WORLD_READABLE);
+            FileOutputStream outFile = openFileOutput(README_FILE_NAME, Context.MODE_PRIVATE);
             byte [] buf = new byte[2048];
             int count;
             while ((count = inFile.read(buf)) != -1) {

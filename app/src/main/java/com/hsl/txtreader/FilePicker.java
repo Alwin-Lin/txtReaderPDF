@@ -21,6 +21,8 @@ package com.hsl.txtreader;
 
 import java.io.File;
 import java.io.FileFilter;
+
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -30,7 +32,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.content.pm.PackageManager;
@@ -47,7 +52,7 @@ public class FilePicker extends Picker
 
     private String curPath;
     private Bitmap folderIcon, fileIcon;
-    private View mLayout;
+    public View mLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,13 @@ public class FilePicker extends Picker
 
         folderIcon = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
         fileIcon = BitmapFactory.decodeResource(getResources(), R.drawable.file);
-        mLayout = findViewById(R.id.file_picker_layout);
+        setContentView(R.layout.file_picker);
+        LinearLayout mLayout = findViewById(R.id.picker);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.picker, null, false);
+        mLayout.addView(contentView, 0);
 
         setTitle(R.string.file_picker);
         setHeadIcon(R.drawable.back);
@@ -69,10 +80,18 @@ public class FilePicker extends Picker
 
         exploreCurPath();
     }
-    public int permissionCheck = ContextCompat.checkSelfPermission(FilePicker.this,
-            Manifest.permission.READ_EXTERNAL_STORAGE);
+//    public int permissionCheck = ContextCompat.checkSelfPermission(FilePicker.this,
+//            Manifest.permission.READ_EXTERNAL_STORAGE);
 
     private void exploreCurPath() {
+        setContentView(R.layout.file_picker);
+        LinearLayout mLayout = findViewById(R.id.picker);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.picker, null, false);
+        mLayout.addView(contentView, 0);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
             // Permission is already available, start camera preview
@@ -125,11 +144,19 @@ public class FilePicker extends Picker
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
            int[] grantResults) {
+        setContentView(R.layout.file_picker);
+        LinearLayout mLayout = findViewById(R.id.picker);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.picker, null, false);
+        mLayout.addView(contentView, 0);
+
         // BEGIN_INCLUDE(onRequestPermissionsResult)
         if (requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Snackbar.make(mLayout, "Read external files permission was granted. Starting preview.",
+                Snackbar.make(findViewById(R.id.picker), "Read external files permission was granted. Starting preview.",
                         Snackbar.LENGTH_SHORT)
                         .show();
                 exploreCurPath();
@@ -143,6 +170,14 @@ public class FilePicker extends Picker
 
 
     private void requestReadExternalFilePermission() {
+        setContentView(R.layout.file_picker);
+        LinearLayout mLayout = findViewById(R.id.picker);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.picker, null, false);
+        mLayout.addView(contentView, 0);
+
         // Permission has not been granted and must be requested.
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
