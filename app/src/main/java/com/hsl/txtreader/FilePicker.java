@@ -24,6 +24,7 @@ import java.io.FileFilter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +34,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -49,7 +51,7 @@ public class FilePicker extends Picker
     public static final String KEY_FILE_NAME = "FileName";
 
     private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 0;
-
+    private static final String TAG = "FilePicker";
     private String curPath;
     private Bitmap folderIcon, fileIcon;
     public View mLayout;
@@ -75,7 +77,8 @@ public class FilePicker extends Picker
         if (intent.hasExtra(KEY_PATH)) {
             curPath = intent.getStringExtra(KEY_PATH);
         } else {
-            curPath = new String("/");
+            curPath = Environment.getExternalStorageDirectory().toString();
+            Log.v(TAG, "curPath = "+curPath);
         }
 
         exploreCurPath();
@@ -95,9 +98,9 @@ public class FilePicker extends Picker
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
             // Permission is already available, start camera preview
-            Snackbar.make(mLayout,
+            Toast.makeText(this,
                     "Read external file permission is available. Exploring current path.",
-                    Snackbar.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
             setHeadText(curPath);
             buildFileList(curPath);
 
@@ -137,6 +140,8 @@ public class FilePicker extends Picker
                 }
             }
         } else {
+            curPath = Environment.getExternalStorageDirectory().toString();
+            Log.v(TAG, "curPath = "+curPath);
             setTitle("No Files Here!");
         }
     }
@@ -156,13 +161,13 @@ public class FilePicker extends Picker
         if (requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Snackbar.make(findViewById(R.id.picker), "Read external files permission was granted. Starting preview.",
-                        Snackbar.LENGTH_SHORT)
+                Toast.makeText(this, "Read external files permission was granted. Starting preview.",
+                        Toast.LENGTH_SHORT)
                         .show();
                 exploreCurPath();
             } else {
-                Snackbar.make(mLayout, "Read external files permission request was denied.",
-                        Snackbar.LENGTH_SHORT)
+                Toast.makeText(this, "Read external files permission request was denied.",
+                        Toast.LENGTH_SHORT)
                         .show();
             }
         }
@@ -196,9 +201,9 @@ public class FilePicker extends Picker
             }).show();
 
         } else {
-            Snackbar.make(mLayout,
+            Toast.makeText(this,
                     "Permission is not available. Requesting read external file permission.",
-                    Snackbar.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
              //Request the permission. The result will be received in onRequestPermissionResult().
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
@@ -227,16 +232,16 @@ public class FilePicker extends Picker
         super.onListItemClick(l, v, position, id);
 
         String seleFileStr = mItems.get(position);
-        File seleFile = new File(curPath+seleFileStr);
+        File seleFile = new File(curPath + "/" + seleFileStr);
 
         if (seleFile.isFile()) {
             Intent intent = new Intent();
             intent.putExtra(KEY_PATH, curPath);
-            intent.putExtra(KEY_FILE_NAME, curPath +  seleFileStr);
+            intent.putExtra(KEY_FILE_NAME, curPath + "/" + seleFileStr);
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            curPath += seleFileStr+"/";
+            curPath += "/" + seleFileStr;
             exploreCurPath();
         }
     }
